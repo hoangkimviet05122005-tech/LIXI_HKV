@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phát Lì Xì 🎁</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff4e50, #f9d423);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        background: white;
+        width: 90%;
+        max-width: 400px;
+        padding: 30px 20px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        font-size: 22px;
+        color: #e63946;
+        margin-bottom: 20px;
+    }
+
+    .money {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2a9d8f;
+        margin: 20px 0;
+        min-height: 50px;
+        transition: 0.3s;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 50px;
+        background: #e63946;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:disabled {
+        background: gray;
+        cursor: not-allowed;
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
+
+    .bounce {
+        animation: bounce 0.5s ease;
+    }
+
+    @keyframes bounce {
+        0% { transform: scale(0.7); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>🎁 Phát Lì Xì 🎁</h1>
+    <div class="money" id="result">Chưa mở lì xì</div>
+    <button id="btn" onclick="giveLuckyMoney()">MỞ LÌ XÌ</button>
+</div>
+
+<script>
+
+const moneyList = [10000, 20000, 30000, 40000, 50000];
+const result = document.getElementById("result");
+const button = document.getElementById("btn");
+
+// Kiểm tra nếu đã mở trước đó
+if (localStorage.getItem("lixi_amount")) {
+    result.innerText = localStorage.getItem("lixi_amount");
+    button.disabled = true;
+    button.innerText = "ĐÃ NHẬN LÌ XÌ";
+}
+
+function giveLuckyMoney() {
+
+    const randomIndex = Math.floor(Math.random() * moneyList.length);
+    const amount = moneyList[randomIndex];
+    const formatted = amount.toLocaleString("vi-VN") + " VNĐ";
+
+    result.innerText = formatted;
+
+    result.classList.remove("bounce");
+    void result.offsetWidth;
+    result.classList.add("bounce");
+
+    // Lưu vào localStorage
+    localStorage.setItem("lixi_amount", formatted);
+
+    // Disable nút
+    button.disabled = true;
+    button.innerText = "ĐÃ NHẬN LÌ XÌ";
+}
+
+</script>
+
+</body>
+</html>
