@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lì Xì Từ HKV</title>
+    <title>Lì Xì HKV</title>
     <style>
         body {
             margin: 0;
@@ -20,7 +20,6 @@
             touch-action: manipulation;
         }
 
-        /* Phong bao */
         #envelope-container {
             display: flex;
             flex-direction: column;
@@ -58,7 +57,6 @@
             line-height: 1.4;
         }
 
-        /* Hiệu ứng rung */
         .shake {
             animation: shake-anim 0.5s ease-in-out;
         }
@@ -69,10 +67,9 @@
             75% { transform: rotate(-8deg); }
         }
 
-        /* Khu vực hiển thị kết quả */
         #result-area {
             text-align: center;
-            display: none; /* Mặc định ẩn */
+            display: none;
         }
 
         .status-msg {
@@ -82,12 +79,12 @@
         }
 
         .money-val {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: bold;
             text-shadow: 2px 2px 15px rgba(0,0,0,0.6);
+            color: #ffd700;
         }
 
-        /* Khi đã bốc xong thì ẩn phong bao */
         .hidden {
             display: none !important;
         }
@@ -103,7 +100,7 @@
     </div>
 
     <div id="result-area">
-        <div class="status-msg" id="status-text">Hãy cầm lấy tiền lì xì này từ HKV đi nhé</div>
+        <div class="status-msg" id="status-text">Hãy nhận lấy số tiền này từ HKV:</div>
         <div class="money-val" id="money-display"></div>
     </div>
 
@@ -114,13 +111,12 @@
         const display = document.getElementById('money-display');
         const statusText = document.getElementById('status-text');
 
-        // Kiểm tra xem đã bốc chưa
+        // Chống F5: Kiểm tra xem đã bốc chưa
         const savedMoney = localStorage.getItem('lixi_hkv_2026');
 
         if (savedMoney) {
-            // NẾU ĐÃ BỐC (F5 LẠI): Ẩn phong bao, hiện thông báo cũ
             envelopeCont.classList.add('hidden');
-            statusText.innerText = "Bạn đã nhận lì xì rồi nhé!";
+            statusText.innerText = "Nhận lì xì 1 lần thôi nhé không có làm lại đâu !";
             showResult(savedMoney);
         }
 
@@ -130,19 +126,31 @@
             lixiBtn.classList.add('shake');
 
             setTimeout(() => {
-                const amounts = [10000, 20000, 30000, 40000, 50000];
-                const randomWin = amounts[Math.floor(Math.random() * amounts.length)];
-
-                // Lưu vào bộ nhớ trình duyệt
+                /* Tỷ lệ dựa trên mảng 20 phần tử (mỗi phần tử = 5%)
+                   - 10k: 6 phần tử (30%)
+                   - 20k: 8 phần tử (40%)
+                   - 30k: 4 phần tử (20%)
+                   - 40k: 1 phần tử (5%)
+                   - 50k: 1 phần tử (5%)
+                */
+                const weightedAmounts = [
+                    10000, 10000, 10000, 10000, 10000, 10000, 
+                    20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000,
+                    30000, 30000, 30000, 30000,
+                    40000, 
+                    50000
+                ];
+                
+                const randomWin = weightedAmounts[Math.floor(Math.random() * weightedAmounts.length)];
+                
                 localStorage.setItem('lixi_hkv_2026', randomWin);
-
-                // Hiệu ứng biến mất phong bao và hiện tiền
+                
                 envelopeCont.style.opacity = '0';
                 setTimeout(() => {
                     envelopeCont.classList.add('hidden');
                     showResult(randomWin);
                 }, 300);
-
+                
             }, 500);
         });
 
