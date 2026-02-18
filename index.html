@@ -126,19 +126,11 @@
             lixiBtn.classList.add('shake');
 
             setTimeout(() => {
-                /* Tỷ lệ dựa trên mảng 20 phần tử (mỗi phần tử = 5%)
-                   - 10k: 6 phần tử (30%)
-                   - 20k: 8 phần tử (40%)
-                   - 30k: 4 phần tử (20%)
-                   - 40k: 1 phần tử (5%)
-                   - 50k: 1 phần tử (5%)
-                */
+       
                 const weightedAmounts = [
-                    10000, 10000, 10000, 10000, 10000, 10000, 
+                    10000, 10000, 10000, 10000, 10000, 10000,10000, 
                     20000, 20000, 20000, 20000, 20000, 20000, 20000, 20000,
-                    30000, 30000, 30000, 30000,
-                    40000, 
-                    50000
+                    30000, 30000, 30000, 30000,30000
                 ];
                 
                 const randomWin = weightedAmounts[Math.floor(Math.random() * weightedAmounts.length)];
@@ -161,4 +153,5 @@
     </script>
 </body>
 </html>
+
 
